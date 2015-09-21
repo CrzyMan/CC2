@@ -5,11 +5,8 @@
     <title>Page Title</title>
     <style>
 
-canvas{
-    'border: solid;
-}
-
 .cnvs{
+    z-index: 1;
     position: absolute;
     transform: translate(-50%,-50%);
     left: 50%;
@@ -110,6 +107,15 @@ function getGradColor(prog){
 }
 
 
+// position of mouse
+var mouseAngle = 0; mouseActive = false;
+function trackMousePos(e){
+    var dx = e.offsetX - winSize*0.5;
+    var dy = e.offsetY - winSize*0.5;
+    mouseRadius = Math.sqrt(dx*dx + dy*dy)
+    mouseActive = mouseRadius > winSize*0.45 && mouseRadius < winSize*0.5;
+}
+ctx.canvas.addEventListener('mousemove', trackMousePos, false);
 
 
 // current time
