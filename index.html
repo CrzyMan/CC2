@@ -107,12 +107,13 @@ function getGradColor(prog){
 }
 
 
-// position of mouse
+// angle the mouse is from the center; hether the mouse is on the outer ring
 var mouseAngle = 0; mouseActive = false;
 function trackMousePos(e){
     var dx = e.offsetX - winSize*0.5;
     var dy = e.offsetY - winSize*0.5;
-    mouseRadius = Math.sqrt(dx*dx + dy*dy)
+    mouseAngle = Math.PI - Math.atan2(dx,dy);
+    mouseRadius = Math.sqrt(dx*dx + dy*dy);
     mouseActive = mouseRadius > winSize*0.45 && mouseRadius < winSize*0.5;
 }
 ctx.canvas.addEventListener('mousemove', trackMousePos, false);
@@ -350,7 +351,12 @@ var animFrame = 0;
 /** Function to coordinate the update of the screen
 */
 function tick(){
-    time = getTimeAngle();
+    if (!mouseActive) {
+        time = getTimeAngle();
+    } else {
+        time = mouseAngle;
+    }
+    
     drawRings(ctx, time);
     rads.forEach(drawRad);
     
